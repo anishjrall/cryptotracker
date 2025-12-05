@@ -10,14 +10,13 @@ export default function Tracker() {
     setLoading(true);
     try {
       const response = await getPrice();
-
       if (response.status === 200) {
         setError("");
         const result = response.data;
         setData(Array.isArray(result) ? result : []);
       }
     } catch (err) {
-      setError("API Error or Rate Limited");
+      setError("Something went wrong");
       setData([]);
     } finally {
       setLoading(false);
@@ -26,11 +25,9 @@ export default function Tracker() {
 
   useEffect(() => {
     handleClick();
-
     const intervalId = setInterval(() => {
       handleClick();
-    }, 60000); // 1 minute
-
+    }, 60000);
     return () => clearInterval(intervalId);
   }, []);
 
